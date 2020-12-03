@@ -30,17 +30,18 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### mapping vue2 to vue3
 
-beforeCreate -> use setup()
-created -> use setup()
-beforeMount -> onBeforeMount
-mounted -> onMounted
-beforeUpdate -> onBeforeUpdate
-updated -> onUpdated
-beforeDestory -> onBeforeUnmount
-destoryed -> onUnmounted
-activated -> onActivated
-deactivated -> onDeactivated
-errorCaptured -> onErrorCaptured
+- beforeCreate -> use setup()
+- created -> use setup()
+- beforeMount -> onBeforeMount
+- mounted -> onMounted
+- beforeUpdate -> onBeforeUpdate
+- updated -> onUpdated
+- beforeDestory -> onBeforeUnmount
+- destoryed -> onUnmounted
+- activated -> onActivated
+- deactivated -> onDeactivated
+
+- errorCaptured -> onErrorCaptured
 
 ### added
 
