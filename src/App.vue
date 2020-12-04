@@ -1,8 +1,19 @@
 <template>
-  <div id="app">
+  <div>
     <img alt="Vue logo" src="./assets/logo.png" />
     <h1>{{ count }}</h1>
     <h1>{{ double }}</h1>
+    <Suspense>
+      <template #default>
+        <div>
+          <async-show></async-show>
+          <dog-show />
+        </div>
+      </template>
+      <template #fallback>
+        <h1>Loading...</h1>
+      </template>
+    </Suspense>
     <ul>
       <li v-for="number in numbers" :key="number">
         <h1>{{ number }}</h1>
@@ -15,6 +26,10 @@
     <button @click="increase">点击+1</button>
     <h1>{{ greetings }}</h1>
     <button @click="updateGreeting">update</button>
+    <button @click="openModal">打开弹窗</button>
+    <Modal :isOpen="modalIsOpen" @close-modal="onModalClose"
+      >My Modal !!!</Modal
+    >
   </div>
 </template>
 
@@ -29,9 +44,13 @@ import {
   onUpdated,
   // onUnmounted,
   watch
+  // onErrorCaptured
 } from "vue";
 import useMousePosition from "./hooks/useMousePosition";
 import useURLLoader from "./hooks/useURLLoader";
+import Modal from "./components/Modal.vue";
+import AsyncShow from "./components/AsyncShow.vue";
+import DogShow from "./components/DogShow.vue";
 interface DataProps {
   count: number;
   double: number;
@@ -51,6 +70,11 @@ interface CatResult {
 }
 export default defineComponent({
   name: "App",
+  components: {
+    Modal,
+    AsyncShow,
+    DogShow
+  },
   setup() {
     onUpdated(() => {
       console.log("updated");
@@ -87,6 +111,18 @@ export default defineComponent({
       document.title = "updated" + greetings.value + data.count;
     });
     const refData = toRefs(data);
+    const modalIsOpen = ref(false);
+    const openModal = () => {
+      modalIsOpen.value = true;
+    };
+    const onModalClose = () => {
+      modalIsOpen.value = false;
+    };
+    // const error = ref(null);
+    // onErrorCaptured((e: any) => {
+    //   console.log("err:", e);
+    //   error.value = e;
+    // });
     return {
       ...refData,
       updateGreeting,
@@ -96,7 +132,10 @@ export default defineComponent({
       result,
       loading,
       loaded,
-      error
+      error,
+      modalIsOpen,
+      openModal,
+      onModalClose
     };
   }
 });
